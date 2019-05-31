@@ -3,7 +3,6 @@ import engine
 import time
 import sapi5
 
-voiceID = 1
 savePath = "./saveTTS/"
 
 _activeEngines = weakref.WeakValueDictionary()
@@ -13,23 +12,23 @@ except KeyError:
     eng = engine.Engine()
     _activeEngines[None] = eng
 
-def init():
+def init(voiceChoice = 1,voiceRate = 150,voiceVolume = 1.0):
 
 	""" RATE"""
 	rate = eng.getProperty('rate')   # getting details of current speaking rate
 	# print (rate)                        #printing current voice rate
-	eng.setProperty('rate', 150)     # setting up new voice rate
+	eng.setProperty('rate', voiceRate)     # setting up new voice rate
 
 
 	"""VOLUME"""
 	volume = eng.getProperty('volume')   #getting to know current volume level (min=0 and max=1)
 	# print (volume)                          #printing current volume level
-	eng.setProperty('volume',1.0)    # setting up volume level  between 0 and 1
+	eng.setProperty('volume',voiceVolume)    # setting up volume level  between 0 and 1
 
 	"""VOICE"""
 	voices = eng.getProperty('voices')       #getting details of current voice
 	#eng.setProperty('voice', voices[0].id)  #changing index, changes voices. o for male
-	eng.setProperty('voice', voices[voiceID].id)   #changing index, changes voices. 1 for female
+	eng.setProperty('voice', voices[voiceChoice].id)   #changing index, changes voices. 1 for female
 
 
 def saveTTS(outA,saveWav = False):
@@ -46,5 +45,3 @@ def saveTTS(outA,saveWav = False):
 	eng.say(outA)
 	eng.runAndWait()
 	eng.stop()
-
-# saveTTS("Nice to see you")
